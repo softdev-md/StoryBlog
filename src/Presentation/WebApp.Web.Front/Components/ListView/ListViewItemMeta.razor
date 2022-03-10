@@ -1,0 +1,47 @@
+﻿@namespace WebApp.Web.Front.Components
+@inherits BootstrapComponentBase
+
+<div class="@ClassName">
+    @if (!string.IsNullOrWhiteSpace(Avatar) || AvatarTemplate != null)
+    {
+        <div class="listview-item-meta-avatar">
+            @if (!string.IsNullOrWhiteSpace(Avatar))
+            {
+                <img src="@Avatar"/>
+            }
+            else
+            {
+                @AvatarTemplate
+            }
+        </div>
+    }
+    <div class="listview-item-meta-content">
+        @if (!string.IsNullOrWhiteSpace(Title) || TitleTemplate != null)
+        {
+            <div class="listview-item-meta-title">
+                @if (!string.IsNullOrWhiteSpace(Title))
+                {
+                    <h4 class="listview-item-meta-title">@Title</h4>
+                }
+                else
+                {
+                    @TitleTemplate
+                }
+            </div>
+        }
+        @if (!string.IsNullOrWhiteSpace(Description) || DescriptionTemplate != null)
+        {
+            <div class="listview-item-meta-description">
+                @if (!string.IsNullOrWhiteSpace(Description))
+                {
+                    @Description
+                }
+                else
+                {
+                    @DescriptionTemplate
+                }
+            </div>
+        }
+    </div>
+</div>
+

@@ -1,0 +1,29 @@
+﻿
+.b-basicLayout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100%
+}
+
+.b-basicLayout-content {
+    position: relative;
+    margin: 24px
+}
+
+    .b-basicLayout-content .b-page-container {
+        margin: -24px -24px 0
+    }
+
+.b-basicLayout-content-disable-margin {
+    margin: 0
+}
+
+.b-basicLayout-content > .b-layout {
+    max-height: 100%
+}
+
+.b-basicLayout 
+.b-basicLayout-is-children.b-basicLayout-has-header {
+    min-height: calc(100vh - 60px)
+}

@@ -1,0 +1,16 @@
+@namespace WebApp.Web.Front.Shared.Controls
+
+@if (!_closed)
+{
+    <span class="@Class" style="@Style" @ref="Ref" @onclick="ClickTag">
+        @if (!string.IsNullOrEmpty(Icon))
+        {
+            <i class="@Icon"></i>
+        }
+        @ChildContent
+        @if (Mode == "closeable" || Closable)
+        {
+            <i @onclick="CloseTag"></i>
+        }
+    </span>
+}

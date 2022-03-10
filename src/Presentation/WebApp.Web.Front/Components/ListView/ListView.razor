@@ -1,0 +1,169 @@
+﻿@namespace WebApp.Web.Front.Components
+@typeparam TItem
+@inherits ListViewBase<TItem>
+
+<div class="@ClassName">
+    @if (Header != null)
+    {
+        <div class="listview-header">
+            @Header
+        </div>
+    }
+    <div class="Loading"></div>
+    <div class="listview-items">
+        @if (Items != null && Items.Any())
+        {
+            if (GroupName == null)
+            {
+                @if (Grid != null)
+                {
+                    <div class="row">
+                        @foreach (var item in Items)
+                        {
+                            <CascadingValue Value="Grid" Name="Grid">
+                                <CascadingValue Value="() => OnClick(item)" TValue="Action" Name="ItemClick">
+                                    @ChildContent(item)
+                                </CascadingValue>
+                            </CascadingValue>
+                        }
+                    </div>
+                }
+                else
+                {
+                    foreach (var item in Items)
+                    {
+                        <CascadingValue Value="() => OnClick(item)" TValue="Action" Name="ItemClick">
+                            @ChildContent(item)
+                        </CascadingValue>
+                    }
+                }
+            }
+            else
+            {
+                foreach (var key in Items.GroupBy(GroupName).OrderBy(k => k.Key))
+                {
+                    <div class="listview-item-group">@key.Key</div>
+                    @*@foreach (var item in key)
+                    {
+                        <div class="listview-item" @onclick="@(e => OnClick(item))">
+                            @ChildContent(item)
+                        </div>
+                    }*@
+
+                    @if (Grid != null)
+                    {
+                        <div class="row">
+                            @foreach (var item in key)
+                            {
+                                <CascadingValue Value="Grid" Name="Grid">
+                                    <CascadingValue Value="() => OnClick(item)" TValue="Action" Name="ItemClick">
+                                        @ChildContent(item)
+                                    </CascadingValue>
+                                </CascadingValue>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        foreach (var item in key)
+                        {
+                            <CascadingValue Value="() => OnClick(item)" TValue="Action" Name="ItemClick">
+                                @ChildContent(item)
+                            </CascadingValue>
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            <div class="listview-empty">
+                @NoResult
+            </div>
+        }
+    </div>
+    @if (Pageable)
+    {
+        <div class="listview-pagination">
+            <Pagination PageItemsSource="@PageItemsSource"
+                        PageItems="@PageItems"
+                        TotalCount="@TotalCount"
+                        PageIndex="@PageIndex"
+                        OnPageClick="@OnPageClick"
+                        OnPageItemsChanged="@OnPageItemsChanged"
+                        ShowPaginationInfo="false">
+            </Pagination>
+        </div>
+    }
+    @if (Footer != null)
+    {
+        <div class="listview-footer">
+            @Footer
+        </div>
+    }
+    @if (LoadMore != null)
+    {
+        @LoadMore
+    }
+    @if (LoadMoreScroll != null)
+    {
+        <div @ref="_refLoadMoreScroll">
+            @LoadMoreScroll
+        </div>
+    }
+</div>
+
+
+
+
+@*<div @attributes="@AdditionalAttributes" class="@ClassName">
+    @if (HeaderTemplate != null)
+    {
+        <div class="listview-header">
+            @HeaderTemplate
+        </div>
+    }
+        <Spinner Spinning="Loading"></Spinner>
+        <div class="listview-body">
+            @if (BodyTemplate != null && Items != null)
+            {
+                if (GroupName == null)
+                {
+                    foreach (var item in Items)
+                    {
+                        <div class="listview-item" @onclick="@(e => OnClick(item))">
+                            @BodyTemplate.Invoke(item)
+                        </div>
+                    }
+                }
+                else
+                {
+                    foreach (var key in Items.GroupBy(GroupName).OrderBy(k => k.Key))
+                    {
+                        <div class="listview-item-group">@key.Key</div>
+                        @foreach (var item in key)
+                        {
+                            <div class="listview-item" @onclick="@(e => OnClick(item))">
+                                @BodyTemplate.Invoke(item)
+                            </div>
+                        }
+                    }
+                }
+            }
+        </div>
+    
+    @if (FooterTemplate != null || Pageable)
+    {
+        <div class="listview-footer">
+            @if (Pageable)
+            {
+                <Pagination PageItemsSource="@PageItemsSource" PageItems="@PageItems" TotalCount="@TotalCount" PageIndex="@PageIndex" OnPageClick="@OnPageClick" OnPageItemsChanged="@OnPageItemsChanged" ShowPaginationInfo="false"></Pagination>
+            }
+            else
+            {
+                @FooterTemplate
+            }
+        </div>
+    }
+    
+</div>*@

@@ -1,0 +1,63 @@
+﻿@namespace WebApp.Web.Front.Components
+@inherits PaginationBase
+
+<nav class="nav nav-pages" aria-label="@PageLabel">
+    <div class="@PaginationBarClass">
+        <div class="d-inline-block">@GetPageInfoText()</div>
+        <div class="d-none d-sm-inline-block">@GetTotalInfoText()</div>
+        <span>@PrePageInfoText</span>
+        <div class="pagination-items d-none d-sm-inline-block">
+            @*<Select Value="@PageItems" Items="@GetPageItems()" OnSelectedItemChanged="@OnPageItemsSelectItemChanged" />*@
+        </div>
+        <span class="d-sm-none">@PageItems</span>
+        <span>@RowInfoText</span>
+    </div>
+    <ul class="@PaginationClass">
+        <li class="page-item">
+            <a class="page-link" aria-label="@PrevPageText" href="#" @onclick:preventDefault @onclick="e => MovePrev(1)">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        </li>
+        @if (PageCount > 5)
+        {
+            @RenderPaginationItem(new PaginationItem() { PageIndex = 1, Active = PageIndex == 1 })
+            <li class="page-item">
+                <a class="page-link page-link-prev" aria-label="@FirstPageText" href="#" @onclick:preventDefault @onclick="e => MovePrev(5)">
+                    <i class="fa fa-ellipsis-h"></i>
+                </a>
+            </li>
+        }
+        @for (int i = StartPageIndex; i <= EndPageIndex; i++)
+        {
+            @if (PageCount > 5 && (i == 1 || i == EndPageIndex)) continue;
+            @RenderPaginationItem(new PaginationItem() { PageIndex = i, Active = PageIndex == i })
+        }
+        @if (PageCount > 5)
+        {
+            <li class="page-item">
+                <a class="page-link page-link-next" href="#" @onclick:preventDefault @onclick="e => MoveNext(5)">
+                    <i class="fa fa-ellipsis-h"></i>
+                </a>
+            </li>
+            @RenderPaginationItem(new PaginationItem() { PageIndex = PageCount, Active = PageIndex == PageCount })
+        }
+        <li class="page-item">
+            <a class="page-link" aria-label="@NextPageText" href="#" @onclick:preventDefault @onclick="e => MoveNext(1)">
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+@code {
+    public class PaginationItem
+    {
+        public int PageIndex { get; init; }
+        public bool Active { get; init; }
+    }
+
+    RenderFragment<PaginationItem> RenderPaginationItem => item =>
+    @<li class="@GetPaginationItemClassName(item.Active)">
+        <a class="page-link" aria-label="@GetLabelString" @onclick:preventDefault @onclick="e => OnPageItemClick(item.PageIndex)">@item.PageIndex</a>
+    </li>;
+}

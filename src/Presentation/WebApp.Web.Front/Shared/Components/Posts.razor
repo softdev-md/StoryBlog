@@ -1,0 +1,53 @@
+﻿@using WebApp.Web.Front.Models.Posts
+@using WebApp.Web.Front.Services
+
+@inherits SharedComponent<PostListModel>
+
+@code {
+
+    ListGridType _listGrid = new ListGridType { Sm = "6", Md = "4" };
+
+    RenderFragment<(string icon, string text)> iconText = context =>
+        @<Template>
+            <span>
+                <i class="@context.icon"></i>@context.text
+            </span>
+        </Template>;
+
+    RenderFragment<DateTime> extra = createdOn => @<span>@createdOn.ToString()</span>;
+
+    MarkupString RawHtml(string html)
+    {
+        return (MarkupString)html;
+    }
+}
+
+<div class="posts-sorting column-count_2">
+    <TagSelect TValue="int" Value="@_selectedCategoryIds" 
+               OnCheckedChange="async () => { Model.Data.Clear(); await _listViewPosts.ReloadDataAsync(); }" 
+               Expandable SelectAllText="@T("All")">
+        @foreach (var category in Model.Categories)
+        {
+            <TagSelectOption Value="(int) category.Value">@category.Text</TagSelectOption>
+        }
+    </TagSelect>
+    @foreach (var categoryId in _selectedCategoryIds)
+    {
+        @categoryId <text>,</text>
+    }
+</div>
+<div class="posts-list column-count_2">
+    <ListView @ref="_listViewPosts" TItem="PostOverviewModel"
+              OnQueryAsync="@OnPostListChange"
+              Pageable="true"
+              PageItemsSource="new List<int>() { 10 }"
+              OnItemClick="Edit"
+              NoResult="Посты не найдены">
+        <ChildContent Context="item">
+            <ListViewItem Actions="@(new[] { iconText(("fa fa-thumbs-up",$" {item.LikesCount}")), iconText(("fa fa-calendar",$" {item.CreatedOn.ToString("Y")}")) })">
+                <ListViewItemMeta Title="@item.Author" Description="@item.Tags"/>
+                <div>@RawHtml(@item.Body)</div>
+            </ListViewItem>
+        </ChildContent>
+    </ListView>
+</div>

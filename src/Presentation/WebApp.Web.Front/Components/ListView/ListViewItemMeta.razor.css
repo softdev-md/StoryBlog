@@ -1,0 +1,42 @@
+﻿
+.listview-item-meta {
+    display: flex;
+    flex: 1;
+    align-items: flex-start;
+    max-width: 100%;
+    margin-bottom: 16px
+}
+
+.listview-item-meta-avatar {
+    margin-right: 16px
+}
+
+.listview-item-meta-content {
+    flex: 1 0;
+    width: 0;
+    color: #333
+}
+
+.listview-item-meta-title {
+    margin-bottom: 5px;
+    color: #333;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 24px
+}
+
+    .listview-item-meta-title > a {
+        font-size: 18px;
+        font-weight: 400;
+        transition: all .3s
+    }
+
+        .listview-item-meta-title > a:hover {
+            color: #1890ff
+        }
+
+.listview-item-meta-description {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5715
+}

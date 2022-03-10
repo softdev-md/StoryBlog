@@ -1,0 +1,479 @@
+﻿
+.listview {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    position: relative
+}
+
+    .listview * {
+        outline: 0
+    }
+
+.listview-pagination {
+    margin-top: 24px;
+    text-align: right
+}
+
+    .listview-pagination .b-pagination-options {
+        text-align: left
+    }
+
+.listview-more {
+    margin-top: 12px;
+    text-align: center
+}
+
+    .listview-more button {
+        padding-right: 32px;
+        padding-left: 32px
+    }
+
+.listview-spin {
+    min-height: 40px;
+    text-align: center
+}
+
+.listview-empty-text {
+    padding: 16px;
+    color: rgba(0,0,0,.25);
+    font-size: 14px;
+    text-align: center
+}
+
+.listview-items {
+    margin: 0;
+    padding: 0;
+    list-style: none
+}
+
+/*.listview-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    color: #333
+}
+*/
+
+.listview-item {
+    display: block;
+    flex: 1;
+    padding: 12px 0;
+}
+
+.listview-item-meta {
+    display: flex;
+    flex: 1;
+    align-items: flex-start;
+    max-width: 100%;
+    margin-bottom: 16px
+}
+
+.listview-item-meta-avatar {
+    margin-right: 16px
+}
+
+.listview-item-meta-content {
+    flex: 1 0;
+    width: 0;
+    color: #333
+}
+
+.listview-item-meta-title {
+    margin-bottom: 5px;
+    color: #333;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 24px
+}
+
+    .listview-item-meta-title > a {
+        font-size: 18px;
+        font-weight: 400;
+        transition: all .3s
+    }
+
+        .listview-item-meta-title > a:hover {
+            color: #1890ff
+        }
+
+.listview-item-meta-description {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5715
+}
+
+.listview-item-features {
+    flex: 0 0 auto;
+    margin-top: 16px;
+    padding: 0;
+    font-size: 0;
+    list-style: none
+}
+
+    .listview-item-features > li {
+        position: relative;
+        display: inline-block;
+        padding: 0 16px;
+        color: #666;
+        font-size: 14px;
+        line-height: 1.5715;
+        text-align: center
+    }
+
+        .listview-item-features > li:first-child {
+            padding-left: 0
+        }
+
+.listview-item-features-split {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 1px;
+    height: 14px;
+    margin-top: -7px;
+    background-color: #ddd
+}
+
+.listview-item-actions {
+    flex: 0 0 auto;
+    margin-top: 16px;
+    background: #f5f5f5;
+    padding: 7px 10px;
+    border-radius: 3px;
+    list-style: none
+}
+
+.listview-item-actions > li {
+    position: relative;
+    display: inline-block;
+    padding: 0 16px;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5715;
+    text-align: center
+}
+
+.listview-item-actions > li:first-child {
+    padding-left: 0
+}
+
+.listview .listview-item-group {
+    margin: 20px 0 18px 0;
+    font-weight: 700;
+}
+
+.listview-header {
+    background: 0 0
+}
+
+.listview-footer {
+    background: 0 0
+}
+
+.listview-footer, .listview-header {
+    padding-top: 12px;
+    padding-bottom: 12px
+}
+
+.listview-empty {
+    padding: 16px 0;
+    color: #666;
+    font-size: 12px;
+    text-align: center
+}
+
+.listview-split .listview-item {
+    border-bottom: 1px solid #f0f0f0
+}
+
+    .listview-split .listview-item:last-child {
+        border-bottom: none
+    }
+
+.listview-split .listview-header {
+    border-bottom: 1px solid #f0f0f0
+}
+
+.listview-split.listview-empty .listview-footer {
+    border-top: 1px solid #f0f0f0
+}
+
+.listview-loading .listview-spin-nested-loading {
+    min-height: 32px
+}
+
+.listview-split.listview-something-after-last-item .b-spin-container > .listview-items > .listview-item:last-child {
+    border-bottom: 1px solid #f0f0f0
+}
+
+.listview-lg .listview-item {
+    padding: 16px 24px
+}
+
+.listview-sm .listview-item {
+    padding: 8px 16px
+}
+
+.listview-vertical .listview-item {
+    align-items: initial
+}
+
+.listview-vertical .listview-item-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.listview-vertical .listview-item-main {
+    display: block;
+    flex: 1
+}
+
+.listview-vertical .listview-item-extra {
+    margin-left: 40px
+}
+
+.listview-grid [class*='col'] > .listview-item {
+    display: block;
+    max-width: 100%;
+    margin-bottom: 16px;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: none
+}
+
+.listview-bordered {
+    border: 1px solid #d9d9d9;
+    border-radius: 3px
+}
+
+    .listview-bordered .listview-header {
+        padding-right: 24px;
+        padding-left: 24px
+    }
+
+    .listview-bordered .listview-footer {
+        padding-right: 24px;
+        padding-left: 24px
+    }
+
+    .listview-bordered .listview-item {
+        padding-right: 24px;
+        padding-left: 24px
+    }
+
+    .listview-bordered .listview-pagination {
+        margin: 16px 24px
+    }
+
+    .listview-bordered.listview-sm .listview-item {
+        padding: 8px 16px
+    }
+
+    .listview-bordered.listview-sm .listview-footer, .listview-bordered.listview-sm .listview-header {
+        padding: 8px 16px
+    }
+
+    .listview-bordered.listview-lg .listview-item {
+        padding: 16px 24px
+    }
+
+    .listview-bordered.listview-lg .listview-footer, .listview-bordered.listview-lg .listview-header {
+        padding: 16px 24px
+    }
+
+@media screen and (max-width:768px) {
+    .listview-vertical .listview-item-extra {
+        margin-left: 24px
+    }
+}
+
+@media screen and (max-width:576px) {
+    .listview-item {
+        flex-wrap: wrap
+    }
+    
+    .listview-vertical .listview-item {
+        flex-wrap: wrap-reverse
+    }
+
+    .listview-vertical .listview-item-content {
+        flex-wrap: wrap;
+    }
+
+    .listview-vertical .listview-item-main {
+        min-width: 220px
+    }
+
+    .listview-vertical .listview-item-extra {
+        margin: auto auto 16px
+    }
+}
+
+
+/*listview*/
+/*.listview {
+    border: none;
+    border-radius: 0.25rem;
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+    .listview .listview-bordered {
+        border: 1px solid rgba(0,0,0,.125);
+    }
+
+
+.listview .listview-header {
+    padding: 1rem;
+    border-bottom-color: inherit;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+.listview .listview-body {
+    padding: 1rem 0 0 1rem;
+    position: relative;
+    overflow: auto;
+    display: flex;
+    flex-flow: column wrap;
+    flex: 1;
+}
+
+    .listview .listview-body .listview-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 0;
+        color: #333
+    }
+
+
+.listview-item-main {
+    display: block;
+    flex: 1
+}
+
+.listview-item-extra {
+    margin-left: 40px
+}
+
+.listview-item-meta {
+    margin-bottom: 16px
+}
+
+
+.listview-item-meta {
+    display: flex;
+    flex: 1;
+    align-items: flex-start;
+    max-width: 100%
+}
+
+.listview-item-meta-avatar {
+    margin-right: 16px
+}
+
+.listview-item-meta-content {
+    flex: 1 0;
+    width: 0;
+    color: #333
+}
+
+.listview-item-meta-title {
+    margin-bottom: 4px;
+    color: #333;
+    font-size: 14px;
+    line-height: 1.5715
+}
+
+.listview-item-meta-title > a {
+    color: #333;
+    transition: all .3s
+}
+
+.listview-item-meta-title > a:hover {
+    color: #1890ff
+}
+
+.listview-item-meta-description {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5715
+}
+
+.listview-item-features {
+    flex: 0 0 auto;
+    margin-left: 48px;
+    padding: 0;
+    font-size: 0;
+    list-style: none
+}
+
+.listview-item-features > li {
+    position: relative;
+    display: inline-block;
+    padding: 0 8px;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5715;
+    text-align: center
+}
+
+.listview-item-features > li:first-child {
+    padding-left: 0
+}
+
+.listview-item-features-split {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 1px;
+    height: 14px;
+    margin-top: -7px;
+    background-color: #f0f0f0
+}
+
+
+
+.listview .listview-body .listview-item:hover .card {
+    cursor: pointer;
+    border: 1px solid #409eff;
+}
+
+.listview .listview-body .listview-item .card {
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+}
+
+.listview .listview-body .listview-item-group {
+    flex-basis: 100%;
+    margin: 1rem 0;
+    font-weight: bold;
+    position: relative;
+}
+
+.listview .listview-body .listview-item-group:after {
+    content: "";
+    position: absolute;
+    top: calc(-50%);
+    left: -1rem;
+    right: 0;
+    background-color: rgba(0,0,0,.1);
+    height: calc(200%);
+}
+
+.listview .listview-pagination {
+    margin: 16px 24px
+}
+
+.listview .listview-footer {
+    padding: 1rem;
+    border-top-color: inherit;
+    border-top-width: 1px;
+    border-top-style: solid;
+}*/
+/*end listview*/
+

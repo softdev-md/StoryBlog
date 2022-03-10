@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "WebApp.Grpc.Protos";
+
+service PostProtoService {
+	rpc GetAllPosts(PostRequest) returns (DataSourceResult);
+}
+
+//The post model message.
+message PostModel {
+	int32 id = 1;
+	int32 postCategoryId = 2;
+	string body = 3;
+	google.protobuf.StringValue author = 4;
+	int32 likesCount = 5;
+	int32 dislikesCount = 6;
+	int32 commentsCount = 7;
+	google.protobuf.StringValue tags = 8;
+	google.protobuf.Timestamp publishedOn = 9;
+	google.protobuf.Timestamp createdOn = 10;
+	int32 displayOrder = 11;
+}
+
+//The post request message.
+message PostRequest {
+	int32 projectId = 1;
+	int32 categoryId = 2;
+	string keyword = 3;
+	int32 page = 4;
+	int32 pageSize = 5;
+}
+
+//The data source response post message.
+message DataSourceResult {
+	repeated PostModel data = 1;
+	int32 total = 2;
+}

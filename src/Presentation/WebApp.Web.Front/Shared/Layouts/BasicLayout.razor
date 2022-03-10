@@ -1,0 +1,32 @@
+﻿@namespace WebApp.Web.Front.Shared.Layouts
+@inherits LayoutComponent
+
+<div class="@CssMapper.Class" style="@_weakModeStyle">
+    <div Style="@_genLayoutStyle">
+        @if (HeaderRender)
+        {
+            <HeaderView ContentWidth="Fixed" />
+        }
+        <div Class="@ContentClassMapper.Class" Style="@ContentStyle">
+            @if (Loading)
+            {
+                <PageLoading />
+            }
+            else
+            {
+                @ChildContent
+            }
+        </div>
+        @if (FooterRender)
+        {
+            @if (FooterContent != null)
+            {
+                @FooterContent
+            }
+            else
+            {
+                <FooterView />
+            }
+        }
+    </div>
+</div>

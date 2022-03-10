@@ -1,0 +1,79 @@
+﻿@namespace WebApp.Web.Front.Components
+@inherits BootstrapComponentBase
+
+@if (Grid != null)
+{
+    <GridCol Style="@ColStyle" Column="@Grid.Column" Xs="@Grid.Xs" Sm="@Grid.Sm" Md="@Grid.Md" Lg="@Grid.Lg" Xl="@Grid.Xl" Xxl="@Grid.Xxl">
+        <div class="@ClassName" @onclick="HandleClick" @onclick:stopPropagation>
+            @itemChildren(this)
+        </div>
+    </GridCol>
+}
+else
+{
+    <div class="@ClassName" @onclick="HandleClick" @onclick:stopPropagation>
+        @itemChildren(this)
+    </div>
+}
+
+@code {
+
+    RenderFragment<ListViewItem> itemChildren = content =>
+    @<Template>
+        @if (content.Extra != null)
+        {
+             <div class="listview-item-content">
+                 <div class="listview-item-main">
+                     @content.ChildContent
+                     @content.featuresContent(content)
+                     @content.actionsContent(content)
+                 </div>
+                 <div class="listview-item-extra">@content.Extra</div>
+             </div>
+        }
+        else
+        { 
+            @content.ChildContent
+            @content.featuresContent(content)
+            @content.actionsContent(content)
+        }
+    </Template>;
+
+    RenderFragment<ListViewItem> featuresContent = content =>
+    @<Template>
+        @if (content.Features != null && content.Features.Length > 0)
+        {
+            <ul class="listview-item-features" key="features">
+                @for (int i = 0; i < content.Features.Length; i++)
+                {
+                    <li key="listview-item-features-@i">
+                        @content.Actions[i]
+                        @if (i != (content.Actions.Length - 1))
+                        {
+                            <em class="listview-item-features-split" />
+                        }
+                    </li>
+                }
+            </ul>
+        }
+    </Template>;
+
+    RenderFragment<ListViewItem> actionsContent = content =>
+    @<Template>
+        @if (content.Actions != null && content.Actions.Length > 0)
+        {
+            <ul class="listview-item-actions" key="actions">
+                @for (int i = 0; i < content.Actions.Length; i++)
+                {
+                    <li key="listview-item-actions-@i">
+                        @content.Actions[i]
+                    </li>
+                }
+            </ul>
+        }
+    </Template>;
+}
+
+
+
+
