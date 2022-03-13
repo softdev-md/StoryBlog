@@ -38,7 +38,8 @@ namespace WebApp.Api
             services.AddApplicationServices();
             services.AddDataServices(_configuration);
             services.AddInfrastructureServices(_configuration);
-            
+
+            services.AddAppAuthentication();
             services.AddSwagger();
             services.AddAppMvc();
         }

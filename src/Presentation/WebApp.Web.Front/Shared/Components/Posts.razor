@@ -1,7 +1,11 @@
 ﻿@using WebApp.Web.Front.Models.Posts
 @using WebApp.Web.Front.Services
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
 @inherits SharedComponent<PostListModel>
+
+@attribute [Authorize]
 
 @code {
 

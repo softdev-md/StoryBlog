@@ -10,7 +10,8 @@ namespace WebApp.Identity
         public static IEnumerable<ApiScope> ApiScopes =>
             new List<ApiScope>
             {
-                new ApiScope("StoryBlogWebAPI", "Web API")
+                new ApiScope("StoryBlogWebAPI", "Web API"),
+                new ApiScope("blazor", "Blazor WebAssembly")
             };
 
         public static IEnumerable<IdentityResource> IdentityResources =>
@@ -23,8 +24,7 @@ namespace WebApp.Identity
         public static IEnumerable<ApiResource> ApiResources =>
             new List<ApiResource>
             {
-                new ApiResource("StoryBlogWebAPI", "Web API", new []
-                    { JwtClaimTypes.Name})
+                new ApiResource("StoryBlogWebAPI", "Web API", new [] { JwtClaimTypes.Name})
                 {
                     Scopes = {"StoryBlogWebAPI"}
                 }
@@ -39,24 +39,26 @@ namespace WebApp.Identity
                     ClientName = "Story Blog Web",
                     AllowedGrantTypes = GrantTypes.Code,
                     RequireClientSecret = false,
+                    RequireConsent = false,
                     RequirePkce = true,
                     RedirectUris =
                     {
-                        "http://localhost:3000/signin-oidc"
+                        "https://localhost:41678/authentication/login-callback"
                     },
                     AllowedCorsOrigins =
                     {
-                        "http://localhost:3000"
+                        "http://localhost:41678"
                     },
                     PostLogoutRedirectUris =
                     {
-                        "http://localhost:3000/signout-oidc"
+                        "http://localhost:41678"
                     },
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "StoryBlogWebAPI"
+                        "StoryBlogWebAPI",
+                        "blazor"
                     },
                     AllowAccessTokensViaBrowser = true
                 }

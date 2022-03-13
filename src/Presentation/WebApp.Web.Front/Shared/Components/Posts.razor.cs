@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using WebApp.Web.Front.ApiDefinitions.Domain;
 using WebApp.Web.Front.Components;
@@ -13,6 +14,7 @@ using WebApp.Web.Front.Services;
 
 namespace WebApp.Web.Front.Shared.Components
 {
+    [Authorize]
     public partial class Posts : SharedComponent<PostListModel>
     {
         #region Fields
