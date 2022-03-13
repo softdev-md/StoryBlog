@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -20,12 +21,16 @@ namespace WebApp.Api.Controllers
     {
         private readonly IMediator _mediator;
 
+        private Guid UserId => !User.Identity.IsAuthenticated
+            ? Guid.Empty
+            : Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
         public PostController(IMediator mediator)
         {
             _mediator = mediator;
         }
-
-        //[Authorize]
+        
+        [Authorize]
         [HttpGet(Name = "GetAllPosts")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesDefaultResponseType]
@@ -35,8 +40,7 @@ namespace WebApp.Api.Controllers
             
             return Ok(dtos);
         }
-
-        //[Authorize]
+        
         [HttpGet("{id}", Name = "GetPostById")]
         public async Task<ActionResult<PostDetailModel>> GetPostById(int id)
         {
@@ -44,7 +48,7 @@ namespace WebApp.Api.Controllers
             return Ok(await _mediator.Send(getPostDetailQuery));
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPost(Name = "AddPost")]
         public async Task<ActionResult<Guid>> Create([FromBody] CreatePostCommand createPostCommand)
         {
@@ -52,7 +56,7 @@ namespace WebApp.Api.Controllers
             return Ok(id);
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpPut(Name = "UpdatePost")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -63,7 +67,7 @@ namespace WebApp.Api.Controllers
             return NoContent();
         }
 
-        //[Authorize]
+        [Authorize]
         [HttpDelete("{id}", Name = "DeletePost")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

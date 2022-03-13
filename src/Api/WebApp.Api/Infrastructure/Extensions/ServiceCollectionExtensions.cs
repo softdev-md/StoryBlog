@@ -2,6 +2,7 @@
 using System.Net;
 using System.Reflection;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +18,21 @@ namespace WebApp.Api.Infrastructure.Extensions
     /// </summary>
     public static class ServiceCollectionExtensions
     {
+        public static void AddAppAuthentication(this IServiceCollection services)
+        {
+            services.AddAuthentication(config =>
+                {
+                    config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "http://localhost:57302/";
+                    options.Audience = "StoryBlogWebAPI";
+                    options.RequireHttpsMetadata = false;
+                });
+        }
+
         /// <summary>
         /// Adds services for detection device
         /// </summary>

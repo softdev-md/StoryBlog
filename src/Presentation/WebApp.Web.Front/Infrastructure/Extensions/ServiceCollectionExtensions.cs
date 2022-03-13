@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using Grpc.Net.Client.Web;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;

@@ -42,8 +42,8 @@ namespace WebApp.Api.Infrastructure.Extensions
 
             application.UseCors("Open");
 
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+            application.UseAuthentication();
+            application.UseAuthorization();
 
             application.UseEndpoints(endpoints =>
             {
