@@ -35,7 +35,13 @@ namespace WebApp.Identity
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddIdentityServer()
+            services.AddIdentityServer(options =>
+                {
+                    options.Events.RaiseErrorEvents = true;
+                    options.Events.RaiseInformationEvents = true;
+                    options.Events.RaiseFailureEvents = true;
+                    options.Events.RaiseSuccessEvents = true;
+                })
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddInMemoryApiResources(ISConfiguration.ApiResources)
                 .AddInMemoryIdentityResources(ISConfiguration.IdentityResources)

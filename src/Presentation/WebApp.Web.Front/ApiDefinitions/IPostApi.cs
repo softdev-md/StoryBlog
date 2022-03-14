@@ -13,6 +13,7 @@ namespace WebApp.Web.Front.ApiDefinitions
     public interface IPostApi
     {
         [Get("/api/post")]
+        [Headers("Authorization: Bearer")]
         Task<DataSourceResult<Post>> GetAllPostsAsync(int projectId, int categoryId, string keyword, int page, int pageSize);
 
         [Get("/api/post/{id}")]

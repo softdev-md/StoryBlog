@@ -39,9 +39,10 @@ namespace WebApp.Web.Front.Infrastructure.Extensions
             // If declared, Refit uses custom DelegatingHandler handler for request preprocessing.
             // register custom DelegatingHandler
             services.AddTransient<DefaultHttpMessageHandler>();
+            services.AddTransient<AuthorizationMessageHandler>();
 
             //services.AddTransient<LoggingDelegatingHandler>();
-            
+
             //builder.Services.Configure<ApiConfig>(builder.Configuration.GetSection("Api"));
 
             return services;
@@ -57,6 +58,7 @@ namespace WebApp.Web.Front.Infrastructure.Extensions
         {
             services.AddRefitClient<IPostApi>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(configuration["Api:BaseAddress"]))
+                .AddHttpMessageHandler<AuthorizationMessageHandler>()
                 .AddHttpMessageHandler<DefaultHttpMessageHandler>();
 
             services.AddRefitClient<IPostCategoryApi>()

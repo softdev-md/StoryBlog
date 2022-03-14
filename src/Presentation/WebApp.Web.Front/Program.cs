@@ -32,13 +32,12 @@ namespace WebApp.Web.Front
             {
                 BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
             });
-
-            //builder.Services.AddApiAuthorization();
+            
             builder.Services.AddOidcAuthentication(options =>
             {
-                builder.Configuration.Bind("Local", options.ProviderOptions);
-                options.ProviderOptions.ResponseType = "code";
-                options.ProviderOptions.DefaultScopes.Add("profile");
+                builder.Configuration.Bind("oidc", options.ProviderOptions);
+                //options.ProviderOptions.ResponseType = "code";
+                //options.ProviderOptions.DefaultScopes.Add("profile");
             });
             
             builder.Services.AddStoreFrontServices();

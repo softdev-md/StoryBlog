@@ -32,7 +32,7 @@ namespace WebApp.Api.Infrastructure.Extensions
                     options.Audience = "StoryBlogWebAPI";
                     options.RequireHttpsMetadata = false;
                 });
-            
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("ApiScope", policy =>

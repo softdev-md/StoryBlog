@@ -11,14 +11,15 @@ namespace WebApp.Identity
             new List<ApiScope>
             {
                 new ApiScope("StoryBlogWebAPI", "Web API"),
-                new ApiScope("blazor", "Blazor WebAssembly")
+                //new ApiScope("blazor", "Blazor WebAssembly")
             };
 
         public static IEnumerable<IdentityResource> IdentityResources =>
             new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
+                new IdentityResources.Email()
             };
 
         public static IEnumerable<ApiResource> ApiResources =>
@@ -35,30 +36,38 @@ namespace WebApp.Identity
             {
                 new Client
                 {
-                    ClientId = "story-blog-web-app",
-                    ClientName = "Story Blog Web",
+                    ClientId = "app.blazor",
+                    ClientName = "Story Blog Web Blazor",
                     AllowedGrantTypes = GrantTypes.Code,
                     RequireClientSecret = false,
                     RequireConsent = false,
                     RequirePkce = true,
-                    RedirectUris =
-                    {
-                        "https://localhost:41678/authentication/login-callback"
-                    },
-                    AllowedCorsOrigins =
-                    {
-                        "http://localhost:41678"
-                    },
-                    PostLogoutRedirectUris =
-                    {
-                        "http://localhost:41678"
-                    },
+                    AllowedCorsOrigins = { "https://localhost:44378" },
+                    RedirectUris = { "https://localhost:44378/authentication/login-callback" },
+                    PostLogoutRedirectUris = { "https://localhost:44378/authentication/logout-callback" },
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "StoryBlogWebAPI",
-                        "blazor"
+                        IdentityServerConstants.StandardScopes.Email,
+                        "StoryBlogWebAPI"
+                    },
+                    AllowAccessTokensViaBrowser = true
+                },
+                new Client
+                {
+                    ClientId = "app.api",
+                    ClientName = "Story Blog Web API",
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireClientSecret = false,
+                    RequireConsent = false,
+                    RequirePkce = true,
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "StoryBlogWebAPI"
                     },
                     AllowAccessTokensViaBrowser = true
                 }
