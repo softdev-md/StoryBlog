@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using WebApp.Web.Front.ApiDefinitions;
 using WebApp.Web.Front.ApiDefinitions.Domain;
 using WebApp.Web.Front.Models.Common;
@@ -28,9 +30,17 @@ namespace WebApp.Web.Front.Services
         public async Task<DataSourceResult<Post>> GetAllPostsAsync(int projectId, int categoryId = 0, string keyword = null, 
             int pageIndex = 0, int pageSize = int.MaxValue)
         {
-            var result = await _postApi.GetAllPostsAsync(projectId, categoryId, keyword, pageIndex, pageSize);
+            try
+            {
+                var result = await _postApi.GetAllPostsAsync(projectId, categoryId, keyword, pageIndex, pageSize);
+                return result;
+            }
+            catch (AccessTokenNotAvailableException exception)
+            {
+                exception.Redirect();
+            }
             
-            return result;
+            return null;
         }
 
         public async Task<Post> GetPostById(int id)

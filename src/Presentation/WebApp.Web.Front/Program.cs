@@ -36,8 +36,6 @@ namespace WebApp.Web.Front
             builder.Services.AddOidcAuthentication(options =>
             {
                 builder.Configuration.Bind("oidc", options.ProviderOptions);
-                //options.ProviderOptions.ResponseType = "code";
-                //options.ProviderOptions.DefaultScopes.Add("profile");
             });
             
             builder.Services.AddStoreFrontServices();

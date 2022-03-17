@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using Grpc.Net.Client.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
@@ -39,7 +40,7 @@ namespace WebApp.Web.Front.Infrastructure.Extensions
             // If declared, Refit uses custom DelegatingHandler handler for request preprocessing.
             // register custom DelegatingHandler
             services.AddTransient<DefaultHttpMessageHandler>();
-            services.AddTransient<AuthorizationMessageHandler>();
+            services.AddTransient<CustomAuthorizationMessageHandler>();
 
             //services.AddTransient<LoggingDelegatingHandler>();
 
@@ -58,7 +59,13 @@ namespace WebApp.Web.Front.Infrastructure.Extensions
         {
             services.AddRefitClient<IPostApi>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(configuration["Api:BaseAddress"]))
-                .AddHttpMessageHandler<AuthorizationMessageHandler>()
+                //.AddHttpMessageHandler<CustomAuthorizationMessageHandler>()
+                .AddHttpMessageHandler(sp =>
+                {
+                    var handler = sp.GetService<AuthorizationMessageHandler>()
+                        .ConfigureHandler(authorizedUrls: new[] { "https://localhost:44311" }, scopes: new[] { "blazorWASM" });
+                    return handler;
+                })
                 .AddHttpMessageHandler<DefaultHttpMessageHandler>();
 
             services.AddRefitClient<IPostCategoryApi>()

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using WebApp.Identity.Configuration;
 using WebApp.Identity.Models;
 using WebApp.Identity.Persistence;
 using WebApp.Identity.Persistence.Models;
@@ -43,10 +44,10 @@ namespace WebApp.Identity
                     options.Events.RaiseSuccessEvents = true;
                 })
                 .AddAspNetIdentity<ApplicationUser>()
-                .AddInMemoryApiResources(ISConfiguration.ApiResources)
-                .AddInMemoryIdentityResources(ISConfiguration.IdentityResources)
-                .AddInMemoryApiScopes(ISConfiguration.ApiScopes)
-                .AddInMemoryClients(ISConfiguration.Clients)
+                .AddInMemoryApiResources(InMemoryConfig.ApiResources)
+                .AddInMemoryIdentityResources(InMemoryConfig.IdentityResources)
+                .AddInMemoryApiScopes(InMemoryConfig.ApiScopes)
+                .AddInMemoryClients(InMemoryConfig.Clients)
                 .AddDeveloperSigningCredential();
 
             services.ConfigureApplicationCookie(config =>
@@ -65,15 +66,16 @@ namespace WebApp.Identity
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(
-                    Path.Combine(env.ContentRootPath, "Styles")),
+                FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Styles")),
                 RequestPath = "/styles"
             });
             app.UseRouting();
             
             app.UseIdentityServer();
+            app.UseAuthorization();
 
             //add first user
             using (var scope = app.ApplicationServices.CreateScope())

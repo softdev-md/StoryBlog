@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
+using IdentityServer4.AccessTokenValidation;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -21,26 +23,34 @@ namespace WebApp.Api.Infrastructure.Extensions
     {
         public static void AddAppAuthentication(this IServiceCollection services)
         {
-            services.AddAuthentication(config =>
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(options =>
                 {
-                    config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-                {
-                    options.Authority = "http://localhost:57302/";
-                    options.Audience = "StoryBlogWebAPI";
+                    options.Authority = "https://localhost:44311/";
+                    options.ApiName = "story-blog";
                     options.RequireHttpsMetadata = false;
                 });
 
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("ApiScope", policy =>
-                {
-                    policy.RequireAuthenticatedUser();
-                    policy.RequireClaim("scope", "StoryBlogWebAPI");
-                });
-            });
+            //services.AddAuthentication(config =>
+            //    {
+            //        config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //        config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    })
+            //    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            //    {
+            //        options.Authority = "https://localhost:44311/";
+            //        options.Audience = "story-blog";
+            //        options.RequireHttpsMetadata = false;
+            //    });
+
+            //services.AddAuthorization(options =>
+            //{
+            //    options.AddPolicy("story-blog", policy =>
+            //    {
+            //        policy.RequireAuthenticatedUser();
+            //        policy.RequireClaim("scope", "storyBlogApi");
+            //    });
+            //});
         }
 
         /// <summary>
@@ -57,7 +67,13 @@ namespace WebApp.Api.Infrastructure.Extensions
 
             services.AddCors(options =>
             {
-                options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+                options.AddPolicy("Open",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
             });
         }
         
@@ -68,8 +84,7 @@ namespace WebApp.Api.Infrastructure.Extensions
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Web Application API",
-
+                    Title = "Web Application API"
                 });
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -96,7 +111,6 @@ namespace WebApp.Api.Infrastructure.Extensions
                         },
                         new List<string>()
                     }
-
                 });
             });
         }

@@ -3,7 +3,7 @@ using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 
-namespace WebApp.Identity
+namespace WebApp.Identity.Configuration
 {
     public static class ISConfiguration
     {
