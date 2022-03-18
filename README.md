@@ -18,6 +18,8 @@ StoryBlog is the **presentation** web application project, **ASP.NET CORE** base
 **Web GraphQL which includes**
  - HotChocolate AspNetCore graphQL package
 
+**Identity Server**
+
 **Frontent which includes**
  - Blazor WEB ASM
  - Refit web api client
