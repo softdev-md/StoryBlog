@@ -50,6 +50,15 @@ namespace WebApp.Grpc
                     .AllowAnyHeader()
                     .WithExposedHeaders("Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding");
             }));
+            
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", opt =>
+                {
+                    opt.Authority = "https://localhost:44311/";
+                    opt.Audience = "GRPC";
+                    opt.RequireHttpsMetadata = false;
+                });
+            services.AddAuthorization();
 
             services.AddApplicationServices();
             services.AddDataServices(_configuration);
@@ -70,6 +79,9 @@ namespace WebApp.Grpc
             
             app.UseGrpcWeb();
             app.UseCors();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

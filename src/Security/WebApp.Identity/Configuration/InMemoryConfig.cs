@@ -19,7 +19,11 @@ namespace WebApp.Identity.Configuration
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
-            new List<ApiScope> { new ApiScope("storyBlogApi", "StoryBlog API") };
+            new List<ApiScope>
+            {
+                new ApiScope("storyBlogApi", "StoryBlog API"),
+                new ApiScope("GRPC", "GRPC Client")
+            };
 
         public static IEnumerable<ApiResource> ApiResources =>
             new List<ApiResource>
@@ -27,38 +31,16 @@ namespace WebApp.Identity.Configuration
                 new ApiResource("storyBlogApi", "StoryBlog API")
                 {
                     Scopes = { "storyBlogApi" }
+                },
+                new ApiResource("GRPC", "GRPC Client")
+                {
+                    Scopes = { "GRPC" },
                 }
             };
 
         public static IEnumerable<Client> Clients =>
             new List<Client>
             {
-                new Client
-                {
-                    ClientId = "story-blog",
-                    RequireClientSecret = false,
-                    //ClientSecrets = new[] { new Secret("puresourcecode".Sha512()) },
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
-                    AllowedScopes = { IdentityServerConstants.StandardScopes.OpenId, "storyBlogApi" }
-                },
-                new Client
-                {
-                    ClientName = "MVC Client",
-                    ClientId = "mvc-client",
-                    AllowedGrantTypes = GrantTypes.Hybrid,
-                    RedirectUris = new List<string> { "https://localhost:5010/signin-oidc" },
-                    RequirePkce = false,
-                    AllowedScopes =
-                    {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        "roles",
-                        "storyBlogApi"
-                    },
-                    ClientSecrets = { new Secret("MVCSecret".Sha512()) },
-                    PostLogoutRedirectUris = new List<string> { "https://localhost:5010/signout-callback-oidc" },
-                    RequireConsent = true
-                },
                 new Client
                 {
                     ClientId = "blazorWASM",
@@ -70,7 +52,8 @@ namespace WebApp.Identity.Configuration
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "storyBlogApi"
+                        "storyBlogApi",
+                        "GRPC"
                     },
                     RedirectUris = { "https://localhost:44333/authentication/login-callback" },
                     PostLogoutRedirectUris = { "https://localhost:44333/authentication/logout-callback" }

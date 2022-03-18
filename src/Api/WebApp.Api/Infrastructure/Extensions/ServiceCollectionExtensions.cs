@@ -27,30 +27,9 @@ namespace WebApp.Api.Infrastructure.Extensions
                 .AddIdentityServerAuthentication(options =>
                 {
                     options.Authority = "https://localhost:44311/";
-                    options.ApiName = "story-blog";
+                    options.ApiName = "storyBlogApi";
                     options.RequireHttpsMetadata = false;
                 });
-
-            //services.AddAuthentication(config =>
-            //    {
-            //        config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //        config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    })
-            //    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-            //    {
-            //        options.Authority = "https://localhost:44311/";
-            //        options.Audience = "story-blog";
-            //        options.RequireHttpsMetadata = false;
-            //    });
-
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy("story-blog", policy =>
-            //    {
-            //        policy.RequireAuthenticatedUser();
-            //        policy.RequireClaim("scope", "storyBlogApi");
-            //    });
-            //});
         }
 
         /// <summary>

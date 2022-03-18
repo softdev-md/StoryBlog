@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using WebApp.Web.Front.ApiDefinitions;
@@ -21,10 +23,13 @@ namespace WebApp.Web.Front.Services
     public class PostService : IPostService
     {
         private readonly IPostApi _postApi;
+        private readonly IHttpClientFactory _clientFactory;
 
-        public PostService(IPostApi postApi)
+        public PostService(IPostApi postApi, 
+            IHttpClientFactory clientFactory)
         {
             _postApi = postApi;
+            _clientFactory = clientFactory;
         }
 
         public async Task<DataSourceResult<Post>> GetAllPostsAsync(int projectId, int categoryId = 0, string keyword = null, 
@@ -33,6 +38,10 @@ namespace WebApp.Web.Front.Services
             try
             {
                 var result = await _postApi.GetAllPostsAsync(projectId, categoryId, keyword, pageIndex, pageSize);
+
+                //var client = _clientFactory.CreateClient("storyBlogApi");
+                //var result = await client.GetFromJsonAsync<DataSourceResult<Post>>("/api/post");
+
                 return result;
             }
             catch (AccessTokenNotAvailableException exception)

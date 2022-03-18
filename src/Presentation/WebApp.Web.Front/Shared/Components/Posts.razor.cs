@@ -14,7 +14,6 @@ using WebApp.Web.Front.Services;
 
 namespace WebApp.Web.Front.Shared.Components
 {
-    [Authorize]
     public partial class Posts : SharedComponent<PostListModel>
     {
         #region Fields
@@ -163,12 +162,12 @@ namespace WebApp.Web.Front.Shared.Components
             //var user = await UserService.GetUserByIdAsync(1);
 
             //get posts from API
-            var result = await PostService.GetAllPostsAsync(1, _selectedCategoryIds.LastOrDefault(),
-                pageIndex: queryModel.PageIndex - 1, pageSize: queryModel.PageItems);
+            //var result = await PostService.GetAllPostsAsync(1, _selectedCategoryIds.LastOrDefault(),
+            //    pageIndex: queryModel.PageIndex - 1, pageSize: queryModel.PageItems);
 
             //get posts from Grpc
-            //var result = await PostGrpcService.GetAllPostsAsync(1, _selectedCategoryIds.LastOrDefault(), keyword: "",
-            //    pageIndex: queryModel.PageIndex - 1, pageSize: queryModel.PageItems);
+            var result = await PostGrpcService.GetAllPostsAsync(1, _selectedCategoryIds.LastOrDefault(), keyword: "",
+                pageIndex: queryModel.PageIndex - 1, pageSize: queryModel.PageItems);
 
             var data = result.Data.Select(post => new Post()
             {
@@ -176,8 +175,8 @@ namespace WebApp.Web.Front.Shared.Components
                 Author = post.Author,
                 Body = post.Body,
                 PostCategoryId = post.PostCategoryId,
-                CreatedOn = post.CreatedOn,//.ToDateTime(),
-                PublishedOn = post.PublishedOn,//?.ToDateTime(),
+                CreatedOn = post.CreatedOn.ToDateTime(),
+                PublishedOn = post.PublishedOn?.ToDateTime(),
                 LikesCount = post.LikesCount
             }).ToList();
 

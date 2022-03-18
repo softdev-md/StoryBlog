@@ -9,6 +9,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using InstagramApiSharp.Helpers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using WebApp.Api.Application.Contracts.Persistence;
 using WebApp.Api.Application.Features.Posts.Queries.GetPostsList;
@@ -16,6 +17,7 @@ using WebApp.Grpc.Protos;
 
 namespace WebApp.Grpc.Services
 {
+    [Authorize]
     public class PostService : PostProtoService.PostProtoServiceBase
     {
         private readonly IMediator _mediator;

@@ -33,6 +33,7 @@ namespace WebApp.Api.Controllers
         [Authorize]
         [HttpGet(Name = "GetAllPosts")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesDefaultResponseType]
         public async Task<ActionResult<DataSourceResult<PostModel>>> GetAllPosts([FromQuery] GetPostsListQuery query)
         {

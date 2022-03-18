@@ -27,21 +27,13 @@ namespace WebApp.Web.Front
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
-
-            builder.Services.AddScoped(sp => new HttpClient
-            {
-                BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)
-            });
-            
-            builder.Services.AddOidcAuthentication(options =>
-            {
-                builder.Configuration.Bind("oidc", options.ProviderOptions);
-            });
             
             builder.Services.AddStoreFrontServices();
             builder.Services.AddHttpHandlers();
             builder.Services.AddRefitClients(builder.Configuration);
+            builder.Services.AddHttpClients(builder.Configuration);
             builder.Services.AddGrpcServices(builder.Configuration);
+            builder.Services.AddAuthServices(builder.Configuration);
 
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
             

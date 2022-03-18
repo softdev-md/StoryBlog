@@ -15,11 +15,6 @@ namespace WebApp.Web.Front.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        /// <summary>
-        /// Adds Store related services and infrastructure.
-        /// </summary>
-        /// <param name="services"></param>
-        /// <returns>A reference to current <see cref="IServiceCollection"/> after operation is completed</returns>
         public static IServiceCollection AddStoreFrontServices(this IServiceCollection services)
         {
             services.AddScoped<IJSService, JSService>();
@@ -29,12 +24,7 @@ namespace WebApp.Web.Front.Infrastructure.Extensions
 
             return services;
         }
-
-        /// <summary>
-        /// Adds an <see cref="HttpClient"/> for <see cref="IConfiguration"/> declared service.
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/> collection.</param>
-        /// <returns>The service collection.</returns>
+        
         public static IServiceCollection AddHttpHandlers(this IServiceCollection services)
         {
             // If declared, Refit uses custom DelegatingHandler handler for request preprocessing.
@@ -48,24 +38,12 @@ namespace WebApp.Web.Front.Infrastructure.Extensions
 
             return services;
         }
-
-        /// <summary>
-        /// Adds an <see cref="HttpClient"/> for <see cref="IConfiguration"/> declared service.
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/> collection.</param>
-        /// <param name="configuration"></param>
-        /// <returns>The service collection.</returns>
+        
         public static IServiceCollection AddRefitClients(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddRefitClient<IPostApi>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri(configuration["Api:BaseAddress"]))
-                //.AddHttpMessageHandler<CustomAuthorizationMessageHandler>()
-                .AddHttpMessageHandler(sp =>
-                {
-                    var handler = sp.GetService<AuthorizationMessageHandler>()
-                        .ConfigureHandler(authorizedUrls: new[] { "https://localhost:44311" }, scopes: new[] { "blazorWASM" });
-                    return handler;
-                })
+                .AddHttpMessageHandler<CustomAuthorizationMessageHandler>()
                 .AddHttpMessageHandler<DefaultHttpMessageHandler>();
 
             services.AddRefitClient<IPostCategoryApi>()
@@ -78,13 +56,25 @@ namespace WebApp.Web.Front.Infrastructure.Extensions
 
             return services;
         }
+        
+        public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHttpClient("storyBlogApi", config=> {
+                    config.BaseAddress = new Uri(configuration["Api:BaseAddress"]);
+                })
+                .AddHttpMessageHandler(sp =>
+                {
+                    var handler = sp.GetService<AuthorizationMessageHandler>()
+                        .ConfigureHandler(
+                            authorizedUrls: new[] { configuration["Api:BaseAddress"] },
+                            scopes: new[] { "storyBlogApi" });
 
-        /// <summary>
-        /// Adds an <see cref="HttpClient"/> for <see cref="IConfiguration"/> declared service.
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/> collection.</param>
-        /// <param name="configuration"></param>
-        /// <returns>The service collection.</returns>
+                    return handler;
+                });
+
+            return services;
+        }
+        
         public static IServiceCollection AddGrpcServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddGrpcClient<PostProtoService.PostProtoServiceClient>(options =>
@@ -96,36 +86,13 @@ namespace WebApp.Web.Front.Infrastructure.Extensions
 
             return services;
         }
-
-        /// <summary>
-        /// Adds an <see cref="HttpClient"/> for <see cref="IConfiguration"/> declared service.
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/> collection.</param>
-        /// <param name="configuration"></param>
-        /// <returns>The service collection.</returns>
+        
         public static IServiceCollection AddAuthServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddAuthentication(options =>
-            //    {
-            //        options.DefaultScheme = "Cookies";
-            //        options.DefaultChallengeScheme = "oidc";
-            //    })
-            //    //.AddCookie("Cookies", c => c.ExpireTimeSpan = TimeSpan.FromMinutes(10))
-            //    .AddOpenIdConnect("oidc", options =>
-            //    {
-            //        options.Authority = configuration["ServiceUrls:IdentityAPI"];
-            //        options.GetClaimsFromUserInfoEndpoint = true;
-            //        options.ClientId = "mango";
-            //        options.ClientSecret = "secret";
-            //        options.ResponseType = "code";
-            //        options.ClaimActions.MapJsonKey("role", "role", "role");
-            //        options.ClaimActions.MapJsonKey("sub", "sub", "sub");
-            //        options.TokenValidationParameters.NameClaimType = "name";
-            //        options.TokenValidationParameters.RoleClaimType = "role";
-            //        options.Scope.Add("mango");
-            //        options.SaveTokens = true;
-
-            //    });
+            services.AddOidcAuthentication(options =>
+            {
+                configuration.Bind("oidc", options.ProviderOptions);
+            });
 
             return services;
         }
