@@ -1,0 +1,50 @@
+version: '3.4'
+
+services:
+    storyblog.api:
+        image: ${DOCKER_REGISTRY-}storyblogapi
+        build:
+            context: .
+            dockerfile: Api\WebApp.Api\Dockerfile
+        container_name: api
+        ports:
+            - "1520:80"
+        networks:
+            - aspcore-network
+            
+    storyblog.grpc:
+        image: ${DOCKER_REGISTRY-}storybloggrpc
+        build:
+            context: .
+            dockerfile: Api\WebApp.Grpc\Dockerfile
+        container_name: grpc
+        ports:
+            - "1525:80"
+        networks:
+            - aspcore-network
+
+    storyblog.identity:
+        image: ${DOCKER_REGISTRY-}storyblogidentity
+        build:
+            context: .
+            dockerfile: Security\WebApp.Identity\Dockerfile
+        container_name: identity
+        ports:
+            - "1530:80"
+        networks:
+            - aspcore-network
+
+    storyblog.front:
+        image: ${DOCKER_REGISTRY-}storyblogfront
+        build:
+            context: .
+            dockerfile: Presentation\WebApp.Web.Front\Dockerfile
+        container_name: front
+        ports:
+            - "1535:80"
+        networks:
+            - aspcore-network
+            
+networks:
+    aspcore-network:
+        driver: bridge

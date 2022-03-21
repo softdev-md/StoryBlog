@@ -7,6 +7,9 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <!--Disable the localized Microsoft.CodeAnalysis.*.resources-->
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <UserSecretsId>606a39d6-ea9f-46e9-9f16-2e8ce746e600</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +21,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
